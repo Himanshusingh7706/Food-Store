@@ -11,7 +11,7 @@ body {
       rgba(250, 250, 250, 0.801),
       rgba(250, 250, 250, 0.836)
     ),
-    url("../public/images/template.jpeg");
+    url("../src/assets/images/template.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
 }
