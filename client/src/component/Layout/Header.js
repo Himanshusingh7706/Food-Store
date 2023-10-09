@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../assets/images/logo.jpeg";
+import logo from "../../assets/images/logo.jpeg";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
@@ -20,7 +20,7 @@ const Header = () => {
       <nav className="navbar row sticky">
         <div className="col-12 col-md-3">
           <Link to="/">
-            <img src={Logo} alt="logo" className="logo"></img>
+            <img src={logo} alt="logo" className="logo"></img>
           </Link>
         </div>
         {/*  Search bar and Search icons */}
