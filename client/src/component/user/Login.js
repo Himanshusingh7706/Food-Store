@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../Layout/Loader";
 import { useAlert } from "react-alert";
@@ -11,7 +11,18 @@ const Login = () => {
 
   const alert = useAlert();
   const dispatch = useDispatch();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.auth
+  );
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = "/";
+    }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, alert, isAuthenticated, error]);
 
   //function to handel form submission
 

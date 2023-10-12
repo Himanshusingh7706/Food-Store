@@ -15,6 +15,7 @@ import Profile from "./component/user/Profile";
 import UpdateProfile from "./component/user/UpdateProfile";
 import ForgotPassword from "./component/user/ForgotPassword";
 import NewPassword from "./component/user/NewPassword";
+
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());

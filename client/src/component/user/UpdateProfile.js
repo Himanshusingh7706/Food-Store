@@ -115,7 +115,7 @@ const UpdateProfile = () => {
                     className="custom-file-input"
                     id="customFile"
                     accept="images/*"
-                    onChange={(e) => setAvatar(e.target.value)}
+                    onChange={onChange}
                   ></input>
                   <label className="custom-file-label">Choose Avatar</label>
                 </div>
