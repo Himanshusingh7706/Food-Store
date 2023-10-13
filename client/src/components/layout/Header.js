@@ -1,47 +1,53 @@
 import React from "react";
-import logo from "../../assets/images/logo.jpeg";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
-import { logout } from "../../actions/userActions";
+import { logout } from "../../actions/userAction";
+import "../../App.css";
+import logo from "../../assets/images/logo.jpeg";
+
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const alert = useAlert();
   const dispatch = useDispatch();
-
   const { user, loading } = useSelector((state) => state.auth);
+
   const logoutHandler = () => {
     dispatch(logout());
     alert.success("Logged out successfully");
   };
+
   return (
     <>
-      <nav className="navbar row sticky">
+      <nav className="navbar row sticky-top">
+        {/* logo */}
         <div className="col-12 col-md-3">
           <Link to="/">
-            <img src={logo} alt="logo" className="logo"></img>
+            <img src={logo} alt="logo" className="logo" />
           </Link>
         </div>
-        {/*  Search bar and Search icons */}
+
+        {/* search bar & icon */}
         <div className="col-12 col-md-6 mt-2 mt-md-0">
           <div className="input-group">
             <input
               type="text"
               id="search_field"
               className="form-control"
-              placeholder="Search Your Favorite Restaurant ......."
+              placeholder="Search Your Favourite Restaurants..."
             />
             <div className="input-group-append">
               <button id="search_btn" className="btn">
-                <i className=" fa fa-search" aria-hidden="true"></i>
+                <i className="fa fa-search" aria-hidden="true"></i>
               </button>
             </div>
           </div>
         </div>
-        {/* login */}
+
+        {/* Login */}
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          {/* ml-> margine (3 unit from left) */}
+          {/* ml-> margin left (3unit from left) */}
           <Link to="/cart" style={{ textDecoration: "none" }}>
             <span className="ml-3" id="cart">
               Cart
@@ -71,6 +77,7 @@ const Header = () => {
 
                 <span>{user && user.name}</span>
               </Link>
+
               <div
                 className="dropdown-menu"
                 aria-labelledby="dropDownMenuButton"

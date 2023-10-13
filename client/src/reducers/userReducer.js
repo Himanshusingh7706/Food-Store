@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -12,11 +10,12 @@ import {
   LOAD_USER_FAIL,
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_RESET,
+  UPDATE_PROFILE_FAIL,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_RESET,
+  UPDATE_PASSWORD_FAIL,
   FORGOT_PASSWORD_REQUEST,
   FORGOT_PASSWORD_SUCCESS,
   FORGOT_PASSWORD_FAIL,
@@ -26,8 +25,10 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
   CLEAR_ERRORS,
-  UPDATE_PASSWORD_FAIL,
-} from "../constants/userConstant";
+} from "../constants/userConstants";
+
+//Reducer for managing authentication-related state
+
 export const authReducer = (
   state = {
     user: {},
@@ -52,7 +53,7 @@ export const authReducer = (
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload, //update user data
+        user: action.payload, // update user data
       };
     case LOGOUT_SUCCESS:
       return {
@@ -61,6 +62,7 @@ export const authReducer = (
         isAuthenticated: false,
         user: null,
       };
+
     case LOAD_USER_FAIL:
       return {
         loading: false,
@@ -68,7 +70,15 @@ export const authReducer = (
         user: null,
         error: action.payload,
       };
+
+    case LOGOUT_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case LOGIN_FAIL:
+    case REGISTER_USER_FAIL:
       return {
         ...state,
         loading: false,
@@ -86,7 +96,8 @@ export const authReducer = (
   }
 };
 
-//reduser for managing user- related state
+//reducer for managing user-related state
+
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
     case UPDATE_PROFILE_REQUEST:
@@ -102,12 +113,14 @@ export const userReducer = (state = {}, action) => {
         loading: false,
         isUpdated: action.payload,
       };
+
     case UPDATE_PROFILE_RESET:
-    case UPDATE_PASSWORD_FAIL:
+    case UPDATE_PASSWORD_RESET:
       return {
         ...state,
         isUpdated: false,
       };
+
     case UPDATE_PROFILE_FAIL:
     case UPDATE_PASSWORD_FAIL:
       return {
@@ -115,6 +128,7 @@ export const userReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+
     case CLEAR_ERRORS:
       return {
         ...state,
@@ -124,7 +138,8 @@ export const userReducer = (state = {}, action) => {
       return state;
   }
 };
-// Reducer for managing forgot password related state
+
+//Reducer for managing forgot password related state
 export const forgotPasswordReducer = (state = {}, action) => {
   switch (action.type) {
     case FORGOT_PASSWORD_REQUEST:
@@ -145,6 +160,7 @@ export const forgotPasswordReducer = (state = {}, action) => {
         ...state,
         success: action.payload,
       };
+
     case FORGOT_PASSWORD_FAIL:
     case NEW_PASSWORD_FAIL:
       return {
@@ -152,6 +168,7 @@ export const forgotPasswordReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+
     case CLEAR_ERRORS:
       return {
         ...state,

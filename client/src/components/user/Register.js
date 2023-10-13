@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { register, clearErrors } from "../../actions/userActions";
-import avatarBack from "../../assets/images/images.png";
+import { register, clearErrors } from "../../actions/userAction";
+//import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const alert = useAlert();
@@ -17,7 +17,7 @@ const Register = () => {
   const { name, email, password, passwordConfirm, phoneNumber } = user;
 
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState(avatarBack);
+  const [avatarPreview, setAvatarPreview] = useState("/images/default_logo.png");
 
   const dispatch = useDispatch();
 
@@ -69,6 +69,7 @@ const Register = () => {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+
   return (
     <>
       <div className="row wrapper">
@@ -123,7 +124,6 @@ const Register = () => {
                 onChange={onChange}
               ></input>
             </div>
-
             <div className="form-group">
               <label htmlFor="phoneNumber_field">Phone Number</label>
               <input
@@ -156,10 +156,13 @@ const Register = () => {
                     accept="images/*"
                     onChange={onChange}
                   ></input>
-                  <label className="custom-file-label">Choose Avatar</label>
+                  <label className="custom-file-label" htmlFor="customFile">
+                    Choose Avatar
+                  </label>
                 </div>
               </div>
             </div>
+
             <button
               id="register_button"
               type="submit"

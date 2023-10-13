@@ -6,13 +6,19 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import { restaurantReducer } from "./reducers/restaurantReducer";
-import { menuReducer } from "./reducers/menuReducer";
+import { menuReducer } from "./reducers/menuReducers";
 import { cartReducer } from "./reducers/cartReducer";
 import {
   authReducer,
   forgotPasswordReducer,
   userReducer,
 } from "./reducers/userReducer";
+import {
+  myOrderReducer,
+  newOrderReducer,
+  orderDetailsReducer,
+} from "./reducers/orderReducers";
+
 const reducer = combineReducers({
   restaurants: restaurantReducer,
   menus: menuReducer,
@@ -20,6 +26,9 @@ const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   forgotPassword: forgotPasswordReducer,
+  newOrder: newOrderReducer,
+  myOrders: myOrderReducer,
+  orderDetails: orderDetailsReducer,
 });
 
 let initialState = {

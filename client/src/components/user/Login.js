@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Loader from "../Layout/Loader";
+import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { login, clearErrors } from "../../actions/userActions";
+import { login, clearErrors } from "../../actions/userAction";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +14,8 @@ const Login = () => {
   const { isAuthenticated, loading, error } = useSelector(
     (state) => state.auth
   );
+  //function to handle form submission
+
   useEffect(() => {
     if (isAuthenticated) {
       window.location.href = "/";
@@ -24,23 +26,9 @@ const Login = () => {
     }
   }, [dispatch, alert, isAuthenticated, error]);
 
-  //function to handel form submission
-
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password))
-      .then(() => {
-        if (isAuthenticated) {
-          window.location.href = "/";
-        } else {
-          alert.error("Login failed");
-          dispatch(clearErrors());
-        }
-      })
-      .catch((error) => {
-        alert.error("Login failed");
-        dispatch(clearErrors());
-      });
+    dispatch(login(email, password));
   };
   return (
     <>
@@ -62,8 +50,8 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   ></input>
                 </div>
-                <div className="form-group">
-                  <label htmlFor="password_field">Passward</label>
+                <div className="form-group ">
+                  <label htmlFor="password_field">Password</label>
                   <input
                     type="password"
                     id="password_field"
@@ -73,7 +61,7 @@ const Login = () => {
                   ></input>
                 </div>
                 <Link to="/users/forgetPassword" className="float-right mb-4">
-                  forgotPassword
+                  Forgot Password
                 </Link>
                 <button
                   id="login_button"
@@ -82,6 +70,7 @@ const Login = () => {
                 >
                   LOGIN
                 </button>
+
                 <Link to="/users/signup" className="float-right mt-3">
                   NEW USER?
                 </Link>

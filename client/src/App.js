@@ -1,26 +1,38 @@
-import React, { useEffect } from "react";
 import "./App.css";
-import Home from "./component/Home";
-import Footer from "./component/Layout/Footer";
-import Header from "./component/Layout/Header";
+import Home from "./components/Home";
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Menu from "./component/Menu";
-import Cart from "./component/cart/Cart";
-import Delivery from "./component/cart/Delivery";
-import Login from "./component/user/Login";
-import Register from "./component/user/Register";
-import { loadUser } from "./actions/userActions";
+import Menu from "./components/Menu";
+import Cart from "./components/cart/Cart";
+import Delivery from "./components/cart/Delivery";
+import Login from "./components/user/Login";
+import Register from "./components/user/Register";
+import React, { useEffect, useState } from "react";
+import { loadUser } from "./actions/userAction";
 import store from "./store";
-import Profile from "./component/user/Profile";
-import UpdateProfile from "./component/user/UpdateProfile";
-import ForgotPassword from "./component/user/ForgotPassword";
-import NewPassword from "./component/user/NewPassword";
+import Profile from "./components/user/Profile";
+import UpdateProfile from "./components/user/UpdateProfile";
+import ForgotPassword from "./components/user/ForgotPassword";
+import NewPassword from "./components/user/NewPassword";
+import ConfirmOrder from "./components/cart/ConfirmOrder";
+import Payment from "./components/cart/Payment";
+//Payment
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
   useEffect(() => {
     store.dispatch(loadUser());
+    async function getStripeApiKey() {
+      const { data } = await axios.get("/api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+    }
+    getStripeApiKey();
   }, []);
-
   return (
     <Router>
       <div className="App">
@@ -30,10 +42,9 @@ function App() {
             <Route path="/" element={<Home />} exact />
             <Route path="/eats/stores/:id/menus" element={<Menu />} exact />
             <Route path="/cart" element={<Cart />} exact />
-            <Route path="/delivery" element={<Delivery />} exact />
-
-            {/* User  */}
-            <Route path="/users/login" element={<Login />} exact />
+            <Route path="/delivery" element={<Delivery />} />
+            {/* User */}
+            <Route path="/users/login" element={<Login />} />
             <Route path="/users/signup" element={<Register />} />
             <Route path="/users/me" element={<Profile />} />
             <Route path="/users/me/update" element={<UpdateProfile />} exact />
@@ -43,10 +54,22 @@ function App() {
               exact
             />
             <Route
-              path="/users/resetPassword"
+              path="/users/resetPassword/:token"
               element={<NewPassword />}
               exact
             />
+            <Route path="/confirm" element={<ConfirmOrder />} exact />
+            {stripeApiKey && (
+              <Route
+                path="/payment"
+                element={
+                  <Elements stripe={loadStripe(stripeApiKey)}>
+                    <Payment />
+                  </Elements>
+                }
+                exact
+              />
+            )}
           </Routes>
         </div>
         <Footer />
@@ -54,4 +77,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
